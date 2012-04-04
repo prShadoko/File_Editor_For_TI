@@ -8,7 +8,7 @@ class TiStringVar : public TiVar
 public:
     TiStringVar();
 
-private:
+protected:
     qint8 m_line_type;  // This byte always has a value of 0.
     qint8* m_data;      // Characters, first to last. The string is zero-terminated.
     qint8 m_end_mark;   // This byte always has a value of 2Dh.

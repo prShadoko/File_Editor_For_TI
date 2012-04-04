@@ -7,9 +7,10 @@
 class TiFile
 {
 public:
-    TiFile();
+    TiFile(const QString filepath);
+    ~TiFile();
 
-private:
+protected:
     // HEADER
     qint8 m_calc_model[8];              // 8-character signature. The signature is always "**TI89**".
     qint8 m_signature1[2];              // 2-byte further signature. These two bytes always contain {01h, 00h} = {1, 0}.
@@ -25,6 +26,9 @@ private:
     qint8 m_signature2[2];              // A 2-byte signature. These two bytes always contain {A5h, 5Ah}.
     TiVar** m_variables;                // Variables data. @see TiVar.
 
+    // OTHER
+    qint8 m_var_entries_number;
+    qint8 m_fol_entries_number;
 };
 
 #endif // TIFILE_H
