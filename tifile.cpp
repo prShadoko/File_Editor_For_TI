@@ -1,53 +1,62 @@
 #include "tifile.h"
 
-TiFile::TiFile(const QString filepath) : m_var_entries_number(0), m_fol_entries_number(0)
+TiFile::TiFile(const QString file_path)
 {
-    int offset = 0;
-    Qfile ti_file(filepath);
+//    int offset = 0;
+    QFile ti_file(file_path);
     if(!ti_file.open(QIODevice::ReadOnly)) {
         return;
     }
 
-    QDataStream reader(ti_file);
+    QDataStream header_reader(&ti_file);
     // HEADER
-    reader.readRawData(m_calc_model, 8);
-    reader.readRawData(m_signature1, 2);
-    reader.readRawData(m_default_folder_name, 8);
-    reader.readRawData(m_comment, 40);
-    reader.readRawData(m_entries_number, 2);
+    header_reader.readRawData(m_calc_model, 8);
 
-    offset += 60;
+    header_reader.setByteOrder(QDataStream::LittleEndian);
+    header_reader >> m_signature1;
+
+    header_reader.setByteOrder(QDataStream::BigEndian);
+    header_reader.readRawData(m_default_folder_name, 8);
+    header_reader.readRawData(m_comment, 40);
+
+    header_reader.setByteOrder(QDataStream::LittleEndian);
+    header_reader >> m_entries_number;
+
+//    offset += 60;
 
     // VARIABLE TABLE
-    m_entries = new TiVarEntry*[m_entries_number];
     for(int i=0; i<m_entries_number; i++) {
-        m_entries[i] = new TiVarEntry(&reader);
-        if(!m_entries[i]->isFolder()) {
-            m_var_entries_number++;
+        qint32 offset;
+        char name[8];
+        qint8 type_id;
+        qint8 attribute;
+        qint16 var_number;
+
+        header_reader >> offset;
+
+        header_reader.setByteOrder(QDataStream::BigEndian);
+        header_reader.readRawData(name, 8);
+
+        header_reader.setByteOrder(QDataStream::LittleEndian);
+        header_reader >> type_id;
+        header_reader >> attribute;
+        header_reader >> var_number;
+
+        TiVarEntry *entry = new TiVarEntry(offset, name, type_id, attribute, var_number);
+        if(!entry->isFolder()) {
+//            QDataStream data_reader(&ti_file);
+//            data_reader.skipRawData(offset);
+//            m_entries.last()->setVariable(new TiVar());
         }
-        offset += 16;
+        m_entries.append(entry);
+//TODO: sorting entries by variable offset with folders first
+//        offset += 16;
     }
-    m_fol_entries_number = m_entries_number - m_var_entries_number;
 
-    reader.readRawData(m_file_size, 4);
-    reader.readRawData(m_signature2, 2);
+    header_reader.setByteOrder(QDataStream::LittleEndian);
+    header_reader >> m_file_size;
+    header_reader >> m_signature2;
 
-    offset += 6;
-
-    m_variables = new TiVar*[m_var_entries_number];
-
-    for(qint8 i=0; i<m_var_entries_number; i++) {
-        for(qint8 j=0; j<m_entries_number; j++) {
-            if(!m_entries[j]->isFolder()) {
-                if(m_entries[j]->offset() == offset) { //TODO: Check endianness
-                    m_variables[i] = new TiVar(); //TODO
-                }
-            }
-        }
-    }
-}
-
-TiFile::~TiFile() {
-    delete[] m_entries;
-    delete[] m_variables;
+//    offset += 6;
+    ti_file.close();
 }
