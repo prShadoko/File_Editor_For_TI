@@ -1,5 +1,6 @@
 #include "tistringvar.h"
 
-TiStringVar::TiStringVar()
+TiStringVar::TiStringVar(char const *data)
 {
+    //TODO: Parse data to attributes
 }
