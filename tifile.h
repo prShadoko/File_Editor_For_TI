@@ -13,32 +13,27 @@ class TiFile
 {
 public:
     TiFile(const QString file_path);
+    ~TiFile();
 
     // GETTERS
     inline char const *calc_model() const {
         return m_calc_model;
     }
-
     inline qint16 const &signature1() const {
         return m_signature1;
     }
-
     inline char const *default_folder_name() const {
         return m_default_folder_name;
     }
-
     inline char const *comment() const {
         return m_comment;
     }
-
     inline qint16 const &entries_number() const {
         return m_entries_number;
     }
-
     inline qint32 const &file_size() const {
         return m_file_size;
     }
-
     inline qint16 const &signature2() const {
         return m_signature2;
     }

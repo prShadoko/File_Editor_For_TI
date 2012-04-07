@@ -36,7 +36,7 @@ TiFile::TiFile(QString const file_path) : m_file_path(file_path)
 
         reader.setByteOrder(QDataStream::BigEndian);
         reader.readRawData(name, 8);
-        reader[8] = '\0';
+        name[8] = '\0';
 
         reader.setByteOrder(QDataStream::LittleEndian);
         reader >> type_id;
@@ -54,21 +54,25 @@ TiFile::TiFile(QString const file_path) : m_file_path(file_path)
 
     reader.setByteOrder(QDataStream::BigEndian);
     for(QList<TiVarEntry*>::iterator it=m_entries.begin(); it!=m_entries.end(); it++) {
-        if(it->isFolder()) {
+        if((*it)->isFolder()) {
             continue;
         }
 
         qint32 length;
         if(it+1 != m_entries.end()) {
-            length = (it+1)->offset() - it->offset();
+            length = (*(it+1))->offset() - (*it)->offset() - 2;
         } else {
-            length = m_file_size - it->offset();
+            length = m_file_size - (*it)->offset() - 2;
         }
         char *data = new char[length];
+        qint16 checksum;
+        reader.setByteOrder(QDataStream::BigEndian);
         reader.readRawData(data, length);
+        reader.setByteOrder(QDataStream::LittleEndian);
+        reader >> checksum;
         TiVar *variable = NULL;
 
-        switch(it->type_id) {
+        switch((*it)->type_id()) {
             case TiVarEntry::Expression:{
 //                    variable = new TiExpressionVar();
                 break;
@@ -90,7 +94,7 @@ TiFile::TiFile(QString const file_path) : m_file_path(file_path)
                 break;
             }
             case TiVarEntry::String:{
-                variable = new TiStringVar(data);
+                variable = new TiStringVar(data, length, checksum);
                 break;
             }
             case TiVarEntry::GDB:{
@@ -118,8 +122,14 @@ TiFile::TiFile(QString const file_path) : m_file_path(file_path)
                 break;
             }
         }
-        it->setVariable(variable);
-        delete[] data;
+        (*it)->setVariable(variable);
     }
     ti_file.close();
+}
+
+TiFile::~TiFile()
+{
+    for(QList<TiVarEntry*>::iterator it=m_entries.begin(); it!=m_entries.end(); it++) {
+        delete *it;
+    }
 }
