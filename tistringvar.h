@@ -13,9 +13,10 @@ public:
     TiStringVar(char const *data);
 
 protected:
-    char m_line_type;  // This byte always has a value of 0.
-    char *m_data;      // Characters, first to last. The string is zero-terminated.
-    char m_end_mark;   // This byte always has a value of 2Dh.
+    qint16 m_size;      // Number of bytes in this string minus two for this field.
+    qint8 m_signature;  // This byte always has a value of 0.
+    char *m_data;       // Characters, first to last. The string is zero-terminated.
+    qint8 m_end_mark;   // This byte always has a value of 2Dh.
 };
 
 #endif // TISTRINGVAR_H
