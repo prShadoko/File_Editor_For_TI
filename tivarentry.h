@@ -7,52 +7,47 @@
 class TiVarEntry
 {
 public:
-    qint8 const Expression = 0x00;
-    qint8 const List       = 0x04;
-    qint8 const Matrix     = 0x06;
-    qint8 const Data       = 0x0A;
-    qint8 const Text       = 0x0B;
-    qint8 const String     = 0x0C;
-    qint8 const GDB        = 0x0D;
-    qint8 const	Figure     = 0x0E;
-    qint8 const	Picture    = 0x10;
-    qint8 const	Program    = 0x12;
-    qint8 const	Function   = 0x13;
-    qint8 const	Macro      = 0x14;
+    static qint8 const Expression = 0x00;
+    static qint8 const List       = 0x04;
+    static qint8 const Matrix     = 0x06;
+    static qint8 const Data       = 0x0A;
+    static qint8 const Text       = 0x0B;
+    static qint8 const String     = 0x0C;
+    static qint8 const GDB        = 0x0D;
+    static qint8 const Figure     = 0x0E;
+    static qint8 const Picture    = 0x10;
+    static qint8 const Program    = 0x12;
+    static qint8 const Function   = 0x13;
+    static qint8 const Macro      = 0x14;
 
     TiVarEntry(qint32 const &offset, char const *name, qint8 const &type_id, qint8 const &attribute, qint16 const &var_number);
-    bool const &isFolder() const;
+    ~TiVarEntry();
+    bool isFolder() const;
     // WARNING: Those may not have the expected signature
-    bool const &operator<(TiVarEntry const &other) const;
-    bool const &operator>(TiVarEntry const &other) const;
+    bool operator<(TiVarEntry const &other) const;
+    bool operator>(TiVarEntry const &other) const;
 
     // GETTERS
-    inline const qint32 &offset() const {
+    inline qint32 const &offset() const {
         return m_offset;
     }
-
-    inline const char *name() const {
+    inline char const *name() const {
         return m_name;
     }
-
     inline qint8 const &type_id() const {
         return m_type_id;
     }
-
     inline qint8 const &attribute() const {
         return m_attribute;
     }
-
-    inline const qint16 &var_number() const {
+    inline qint16 const &var_number() const {
         return m_var_number;
     }
-
-    inline const TiVar *variable() const {
+    inline TiVar const *variable() const {
         return m_variable;
     }
-
     // SETTERS
-    inline void setVariable(TiVar const * const variable) {
+    inline void setVariable(TiVar *variable) {
         m_variable = variable;
     }
 
