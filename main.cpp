@@ -45,9 +45,11 @@ int main(int argc, char *argv[])
             {
                 case TiVarEntry::String:{
                     cout << dec << ((TiStringVar*)var)->size()                      << endl
-//                         << hex << (qint16)((TiStringVar*)var)->signature1() << 'h' << endl
+                         << hex << (qint16)((TiStringVar*)var)->signature1() << 'h' << endl
                                 << ((TiStringVar*)var)->data()                      << endl
-                         << hex << (qint16)((TiStringVar*)var)->signature2() << 'h' << endl;
+                                << (qint16)((TiStringVar*)var)->signature2() << 'h' << endl
+                                << var->checksum()                           << "h -- "
+                                << var->calc_checksum()                      << 'h' << endl;
                     break;
                 }
 
