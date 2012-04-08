@@ -43,7 +43,7 @@ public:
     inline qint16 const &var_number() const {
         return m_var_number;
     }
-    inline TiVar const *variable() const {
+    inline TiVar *variable() const {
         return m_variable;
     }
     // SETTERS

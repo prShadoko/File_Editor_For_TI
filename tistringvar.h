@@ -1,7 +1,6 @@
 #ifndef TISTRINGVAR_H
 #define TISTRINGVAR_H
 
-//#include <QtGlobal>
 #include <QBuffer>
 #include <QDataStream>
 #include "tivar.h"

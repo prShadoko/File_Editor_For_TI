@@ -16,18 +16,17 @@ void TiStringVar::parse()
 //TODO: error management / checking signatures
     QBuffer buffer;
     buffer.setData(m_raw_data, m_raw_data_length);
+    buffer.open(QIODevice::ReadOnly);
     QDataStream reader(&buffer);
 
-    reader.setByteOrder(QDataStream::LittleEndian);
-    reader >> m_size; // should be m_raw_data_length - 2
-    reader >> m_signature1; // should be 0x00
-
-    m_data = new char[m_size-2];
     reader.setByteOrder(QDataStream::BigEndian);
-    reader.readRawData(m_data, m_size-2);
-
-    reader.setByteOrder(QDataStream::LittleEndian);
-    reader >> m_signature2; // should be 0x2D
+    reader.skipRawData(4);              // skip the first four 0x00 bytes
+    reader >> m_size;                   // size of the following data
+    qint16 length = m_size - 2;         // size of the string itself
+    reader >> m_signature1;             // should be 0x00
+    m_data = new char[length];
+    reader.readRawData(m_data, length); // the string content
+    reader >> m_signature2;             // should be 0x2D
 
     buffer.close();
 }
