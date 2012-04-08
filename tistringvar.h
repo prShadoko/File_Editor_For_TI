@@ -15,6 +15,20 @@ public:
     ~TiStringVar();
     virtual void parse();
 
+    // GETTERS
+    inline qint16 const &size() const {
+        return m_size;
+    }
+    inline qint8 const &signature1() const {
+        return m_signature1;
+    }
+    inline char const *data() const {
+        return m_data;
+    }
+    inline qint8 const &signature2() const {
+        return m_signature2;
+    }
+
 protected:
     qint16 m_size;      // Number of bytes in this string minus two for this field.
     qint8 m_signature1; // This byte always has a value of 0.
