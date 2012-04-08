@@ -31,6 +31,9 @@ public:
     inline qint16 const &entries_number() const {
         return m_entries_number;
     }
+    inline QList<TiVarEntry*> const &entries() {
+        return m_entries;
+    }
     inline qint32 const &file_size() const {
         return m_file_size;
     }
