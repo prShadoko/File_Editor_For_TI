@@ -19,7 +19,7 @@ qint16 TiVar::calc_checksum() const
     qint16 checksum = 0;
     for(qint32 i=0; i<m_raw_data_length; i++)
     {
-        checksum += m_raw_data[i];
+        checksum += (unsigned char)m_raw_data[i];
     }
 
     return checksum;
