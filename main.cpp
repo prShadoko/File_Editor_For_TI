@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <cstdlib>
 #include <iostream>
 #include "tifile.h"
 #include "tivar.h"
