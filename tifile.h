@@ -1,10 +1,10 @@
 #ifndef TIFILE_H
 #define TIFILE_H
 
-#include <qdatastream.h>
-#include <qfile.h>
-#include <qlist.h>
+#include <QFile>
+#include <QList>
 
+#include "datastream.h"
 #include "tivarentry.h"
 #include "tivar.h"
 #include "tistringvar.h"
@@ -12,6 +12,7 @@
 class TiFile
 {
 public:
+    TiFile();
     TiFile(const QString file_path);
     ~TiFile();
 
