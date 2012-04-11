@@ -16,7 +16,7 @@ public:
     qint8 number() const throw();
     qint8 level() const throw();
 
-private:
+protected:
     qint8 m_number;
     QString m_message;
     qint8 m_level;
