@@ -2,7 +2,8 @@ HEADERS += \
     tivar.h \
     tistringvar.h \
     tifile.h \
-    tivarentry.h
+    tivarentry.h \
+    excep.h
 
 SOURCES += \
     tivar.cpp \
