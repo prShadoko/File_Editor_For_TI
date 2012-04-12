@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <QList>
+#include <iostream>
 
 #include "datastream.h"
 #include "tivarentry.h"

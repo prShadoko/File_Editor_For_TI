@@ -8,15 +8,33 @@ DataStream::DataStream(QIODevice *d) :
 
 void DataStream::read(char *dest, qint32 len) throw(Excep)
 {
-    if(readRawData(dest, len) != len || status() != QDataStream::Ok) {
-        Excep(10, QString("An error occured while reading from stream.")).raise();
+    readRawData(dest, len);
+    dest[len] = '\0';
+    if(status() != Ok) {
+        Excep(10, QString("An error occured while reading from stream. (status : %1)").arg(status())).raise();
     }
 }
 
-void DataStream::read(qint16 dest) throw(Excep)
+void DataStream::read(qint8 &dest) throw(Excep)
 {
     (*this) >> dest;
-    if(status() != QDataStream::Ok) {
-        Excep(10, QString("An error occured while reading from stream.")).raise();
+    if(status() != Ok) {
+        Excep(10, QString("An error occured while reading from stream. (status : %1)").arg(status())).raise();
+    }
+}
+
+void DataStream::read(qint16 &dest) throw(Excep)
+{
+    (*this) >> dest;
+    if(status() != Ok) {
+        Excep(10, QString("An error occured while reading from stream. (status : %1)").arg(status())).raise();
+    }
+}
+
+void DataStream::read(qint32 &dest) throw(Excep)
+{
+    (*this) >> dest;
+    if(status() != Ok) {
+        Excep(10, QString("An error occured while reading from stream. (status : %1)").arg(status())).raise();
     }
 }

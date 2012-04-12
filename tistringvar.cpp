@@ -13,7 +13,6 @@ TiStringVar::~TiStringVar()
 
 void TiStringVar::parse()
 {
-//TODO: error management / checking signatures
     QBuffer buffer;
     buffer.setData(m_raw_data, m_raw_data_length);
     buffer.open(QIODevice::ReadOnly);
@@ -29,4 +28,8 @@ void TiStringVar::parse()
     reader >> m_signature2;             // should be 0x2D
 
     buffer.close();
+
+    if(m_signature1 != 0x00 || m_signature2 != 0x2D) {
+        Excep(20, Qstring("Invalid signature encountered. File is corrupted.")).raise();
+    }
 }

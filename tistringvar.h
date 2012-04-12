@@ -5,8 +5,6 @@
 #include <QDataStream>
 #include "tivar.h"
 
-//TODO: generic class for string variables and lines from text variables.
-
 class TiStringVar : public TiVar
 {
 public:

@@ -9,8 +9,8 @@ TiFile::TiFile()
     for(qint32 i=0; i<9; i++) {
         m_default_folder_name[i] = '\0';
     }
-    for(qint32 i=0; i<9; i++) {
-            m_comment[i] = '\0';
+    for(qint32 i=0; i<41; i++) {
+        m_comment[i] = '\0';
     }
     m_entries_number = 0;
     m_file_size = 0;
@@ -24,8 +24,11 @@ TiFile::TiFile(QString const file_path) :
     try
     {
         QFile ti_file(file_path);
+        if(!ti_file.exists()) {
+            Excep(1, QString("File does not exists : %1").arg(file_path)).raise();
+        }
         if(!ti_file.open(QIODevice::ReadOnly)) {
-            Excep(1, QString("Unable to open file : %1").arg(file_path)).raise();
+            Excep(2, QString("Unable to open file : %1").arg(file_path)).raise();
         }
 
         DataStream reader(&ti_file);
@@ -145,7 +148,8 @@ TiFile::TiFile(QString const file_path) :
     }
     catch(Excep &e)
     {
-        // Handle exception
+        std::cerr << "In file \"" << file_path.toStdString() << "\" : " << std::endl
+                  << e.what() << std::endl;
     }
 }
 

@@ -18,7 +18,7 @@ char const *Excep::what() const throw()
     return m_message.toStdString().c_str();
 }
 
-void Excep::raise() const throw()
+void Excep::raise() const
 {
     throw *this;
 }
