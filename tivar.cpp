@@ -6,7 +6,7 @@ TiVar::TiVar(char *raw_data, qint32 const &length, qint16 const &checksum) :
     m_checksum(checksum)
 {
     if(calc_checksum() != m_checksum) {
-        //TODO: throw an exception
+        Excep(10, QString("Invalid checksum. File is corrupted."));
     }
 }
 
