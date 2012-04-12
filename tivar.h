@@ -2,6 +2,7 @@
 #define TIVAR_H
 
 #include <QtGlobal>
+#include "excep.h"
 
 class TiVar
 {

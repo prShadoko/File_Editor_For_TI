@@ -30,6 +30,6 @@ void TiStringVar::parse()
     buffer.close();
 
     if(m_signature1 != 0x00 || m_signature2 != 0x2D) {
-        Excep(20, Qstring("Invalid signature encountered. File is corrupted.")).raise();
+        Excep(20, QString("Invalid signature encountered. File is corrupted.")).raise();
     }
 }
