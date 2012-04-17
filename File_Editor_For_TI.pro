@@ -5,7 +5,8 @@ HEADERS += \
     tivarentry.h \
     excep.h \
     datastream.h \
-    titextvar.h
+    titextvar.h \
+    titextline.h
 
 SOURCES += \
     tivar.cpp \
@@ -15,7 +16,8 @@ SOURCES += \
     main.cpp \
     datastream.cpp \
     excep.cpp \
-    titextvar.cpp
+    titextvar.cpp \
+    titextline.cpp
 
 OTHER_FILES += \
     README.txt
