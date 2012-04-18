@@ -1,34 +1,38 @@
 #include "tifile.h"
 
-TiFile::TiFile()
+TiFile::TiFile(QString const &file_path) :
+    m_file_path(file_path),
+    m_signature1(0x01),
+    m_entries_number(0),
+    m_file_size(0),
+    m_signature2(0x5AA5)
 {
     for(qint32 i=0; i<9; i++) {
         m_calc_model[i] = '\0';
-    }
-    m_signature1 = 0x01;
-    for(qint32 i=0; i<9; i++) {
         m_default_folder_name[i] = '\0';
     }
     for(qint32 i=0; i<41; i++) {
         m_comment[i] = '\0';
     }
-    m_entries_number = 0;
-    m_file_size = 0;
-    m_signature2 = 0x5AA5;
 }
 
-TiFile::TiFile(QString const file_path) :
-    m_file_path(file_path)
+TiFile::~TiFile()
 {
-    TiFile();
+    for(QList<TiVarEntry*>::iterator it=m_entries.begin(); it!=m_entries.end(); it++) {
+        delete *it;
+    }
+}
+
+void TiFile::readHeader()
+{
     try
     {
-        QFile ti_file(file_path);
+        QFile ti_file(m_file_path);
         if(!ti_file.exists()) {
-            Excep(1, QString("File does not exists : %1").arg(file_path)).raise();
+            Excep(1, QString("File does not exists : %1").arg(m_file_path)).raise();
         }
         if(!ti_file.open(QIODevice::ReadOnly)) {
-            Excep(2, QString("Unable to open file : %1").arg(file_path)).raise();
+            Excep(2, QString("Unable to open file : %1").arg(m_file_path)).raise();
         }
 
         DataStream reader(&ti_file);
@@ -66,32 +70,51 @@ TiFile::TiFile(QString const file_path) :
             TiVarEntry *entry = new TiVarEntry(offset, name, type_id, attribute, var_number);
             m_entries.append(entry);
         }
-        qSort(m_entries);
-
+//        qSort(m_entries);
         reader.setByteOrder(QDataStream::LittleEndian);
         reader.read(m_file_size);
         reader.read(m_signature2);
+        ti_file.close();
+    }
+    catch(Excep &e)
+    {
+        std::cerr << "In file \"" << m_file_path.toStdString() << "\" : " << std::endl
+                  << e.what() << std::endl;
+    }
+}
 
-        reader.setByteOrder(QDataStream::BigEndian);
+void TiFile::readVariables()
+{
+    try
+    {
+        QFile ti_file(m_file_path);
+        if(!ti_file.exists()) {
+            Excep(1, QString("File does not exists : %1").arg(m_file_path)).raise();
+        }
+        if(!ti_file.open(QIODevice::ReadOnly)) {
+            Excep(2, QString("Unable to open file : %1").arg(m_file_path)).raise();
+        }
+
+        DataStream reader(&ti_file);
+
         for(QList<TiVarEntry*>::iterator it=m_entries.begin(); it!=m_entries.end(); it++) {
             if((*it)->isFolder()) {
                 continue;
             }
 
-            qint32 length;
-            if(it+1 != m_entries.end()) {
-                length = (*(it+1))->offset() - (*it)->offset() - 2;
-            } else {
-                length = m_file_size - (*it)->offset() - 2;
-            }
+            reader.skipRawData(4);
+
+            qint16 length;
+            reader.read(length);
+
             char *data = new char[length];
-            qint16 checksum;
-            reader.setByteOrder(QDataStream::BigEndian);
             reader.read(data, length);
+
+            qint16 checksum;
             reader.setByteOrder(QDataStream::LittleEndian);
             reader.read(checksum);
-            TiVar *variable = NULL;
 
+            TiVar *variable = NULL;
             switch((*it)->type_id()) {
                 case TiVarEntry::Expression:{
     //                    variable = new TiExpressionVar();
@@ -114,7 +137,7 @@ TiFile::TiFile(QString const file_path) :
                     break;
                 }
                 case TiVarEntry::String:{
-                    variable = new TiStringVar(data, length, checksum);
+                variable = new TiStringVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::GDB:{
@@ -148,14 +171,7 @@ TiFile::TiFile(QString const file_path) :
     }
     catch(Excep &e)
     {
-        std::cerr << "In file \"" << file_path.toStdString() << "\" : " << std::endl
+        std::cerr << "In file \"" << m_file_path.toStdString() << "\" : " << std::endl
                   << e.what() << std::endl;
-    }
-}
-
-TiFile::~TiFile()
-{
-    for(QList<TiVarEntry*>::iterator it=m_entries.begin(); it!=m_entries.end(); it++) {
-        delete *it;
     }
 }
