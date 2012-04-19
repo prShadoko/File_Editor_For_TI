@@ -13,9 +13,10 @@
 class TiFile
 {
 public:
-    TiFile();
-    TiFile(const QString file_path);
+    TiFile(QString const &file_path = "");
     ~TiFile();
+    void readHeader();
+    void readVariables();
 
     // GETTERS
     inline char const *calc_model() const {
@@ -41,6 +42,11 @@ public:
     }
     inline qint16 const &signature2() const {
         return m_signature2;
+    }
+
+    // SETTERS
+    inline void setFilePath(QString const &file_path) {
+        m_file_path = file_path;
     }
 
 protected:
