@@ -67,7 +67,7 @@ void TiFile::readHeader()
             reader.read(attribute);
             reader.read(var_number);
 
-            TiVarEntry *entry = new TiVarEntry(offset, name, type_id, attribute, var_number);
+            TiVarEntry *entry = new TiVarEntry(offset, name, (TiVarEntry::VarType)type_id, attribute, var_number);
             m_entries.append(entry);
         }
 //        qSort(m_entries);
