@@ -22,12 +22,9 @@ public:
         Macro      = 0x14
     };
 
-    TiVarEntry(qint32 const &offset, char const *name, VarType &type_id, qint8 const &attribute, qint16 const &var_number);
+    TiVarEntry(qint32 const offset, char const *name, VarType type_id, qint8 const attribute, qint16 const var_number);
     ~TiVarEntry();
     bool isFolder() const;
-    // WARNING: Those may not have the expected signature
-    bool operator<(TiVarEntry const &other) const;
-    bool operator>(TiVarEntry const &other) const;
 
     // GETTERS
     inline qint32 const &offset() const {
