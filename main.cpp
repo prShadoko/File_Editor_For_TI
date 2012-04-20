@@ -14,43 +14,47 @@ int main(int argc, char *argv[])
     }
 
     TiFile file(argv[1]);
+    file.readHeader();
 
-    cout        << file.calc_model()                 << endl
-         << hex << file.signature1()          << 'h' << endl
-                << file.default_folder_name()        << endl
-                << file.comment()                    << endl
-         << dec << file.entries_number()             << endl
-                << file.file_size()                  << endl
-         << hex << file.signature2()          << 'h' << endl
-                                                     << endl;
+    cout        << "Calc model:     " << file.calc_model()                 << endl
+         << hex << "Signature:      " << file.signature1()          << 'h' << endl
+                << "Default folder: " << file.default_folder_name()        << endl
+                << "Comment:        " << file.comment()                    << endl
+         << dec << "Entries number: " << file.entries_number()             << endl
+                << "File size:      " << file.file_size()                  << endl
+         << hex << "Signature:      " << file.signature2()          << 'h' << endl
+                                                                           << endl;
 
+    file.readVariables();
     QList<TiVarEntry*> var_table = file.entries();
     for(QList<TiVarEntry*>::iterator it=var_table.begin(); it!=var_table.end(); it++)
     {
         if((*it)->isFolder())
         {
-            cout << (*it)->name()       << endl
-                 << (*it)->var_number() << endl
-                                        << endl;
+            cout << "Folder name:    " << (*it)->name()       << endl
+                 << "Variable count: " << (*it)->var_number() << endl
+                                                              << endl;
         }
         else
         {
-            cout << hex << (*it)->offset()            << 'h' << endl
-                        << (*it)->name()              << endl
-                        << (qint16)(*it)->type_id()   << 'h' << endl
-                        << (qint16)(*it)->attribute() << 'h' << endl;
-            TiVar *var = (*it)->variable();
-            var->parse();
+            cout << hex << "Offset:          " << (*it)->offset()            << 'h' << endl
+                        << "Variable name:   " << (*it)->name()              << endl
+                        << "Type ID:         " << (qint16)(*it)->type_id()   << 'h' << endl
+                        << "Attribute:       " << (qint16)(*it)->attribute() << 'h' << endl;
             cout << "<--" << endl;
+
             switch((*it)->type_id())
             {
                 case TiVarEntry::String:{
-                    cout << dec << ((TiStringVar*)var)->size()                      << endl
-                         << hex << (qint16)((TiStringVar*)var)->signature1() << 'h' << endl
-                                << ((TiStringVar*)var)->data()                      << endl
-                                << (qint16)((TiStringVar*)var)->signature2() << 'h' << endl
-                                << var->checksum()                           << "h -- "
-                                << var->calc_checksum()                      << 'h' << endl;
+                    TiStringVar *var = (TiStringVar*)(*it)->variable();
+
+                    var->parse();
+                    cout << dec << "Variable size:   " << var->size()                      << endl
+                         << hex << "Signature:       " << (qint16)var->signature1() << 'h' << endl
+                                << "Data:            " << var->data()                      << endl
+                                << "Signature:       " << (qint16)var->signature2() << 'h' << endl
+                                << "Checksum:        " << var->checksum()           << "h -- "
+                                                       << var->calc_checksum()      << 'h' << endl;
                     break;
                 }
 
