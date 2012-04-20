@@ -23,7 +23,9 @@ TiVar::~TiVar()
 
 qint16 TiVar::calc_checksum() const
 {
-    qint16 checksum = 0;
+    unsigned char size_bytes[2];
+    memcpy(size_bytes, reinterpret_cast<const unsigned char*>(&m_size), 2);
+    qint16 checksum = size_bytes[0] + size_bytes[1];
     for(qint32 i=0; i<m_size; i++)
     {
         checksum += (unsigned char)m_raw_data[i];

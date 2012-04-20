@@ -96,12 +96,12 @@ void TiFile::readVariables()
         }
 
         DataStream reader(&ti_file);
-
         for(QList<TiVarEntry*>::iterator it=m_entries.begin(); it!=m_entries.end(); it++) {
             if((*it)->isFolder()) {
                 continue;
             }
-
+            ti_file.seek((*it)->offset());
+            reader.setByteOrder(QDataStream::BigEndian);
             reader.skipRawData(4);
 
             qint16 length;
@@ -137,7 +137,7 @@ void TiFile::readVariables()
                     break;
                 }
                 case TiVarEntry::String:{
-                variable = new TiStringVar(data, length, checksum);
+                    variable = new TiStringVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::GDB:{
