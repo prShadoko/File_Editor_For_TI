@@ -7,8 +7,8 @@
 
 #include "datastream.h"
 #include "tivarentry.h"
-#include "tivar.h"
 #include "tistringvar.h"
+#include "titextvar.h"
 
 class TiFile
 {
