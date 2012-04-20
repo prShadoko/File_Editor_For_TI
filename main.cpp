@@ -16,14 +16,17 @@ int main(int argc, char *argv[])
     TiFile file(argv[1]);
     file.readHeader();
 
-    cout        << "Calc model:     " << file.calc_model()                 << endl
-         << hex << "Signature:      " << file.signature1()          << 'h' << endl
-                << "Default folder: " << file.default_folder_name()        << endl
-                << "Comment:        " << file.comment()                    << endl
-         << dec << "Entries number: " << file.entries_number()             << endl
-                << "File size:      " << file.file_size()                  << endl
-         << hex << "Signature:      " << file.signature2()          << 'h' << endl
-                                                                           << endl;
+    cout << "Calc model:     " << file.calc_model()                 << endl
+         << hex
+         << "Signature:      " << file.signature1()          << 'h' << endl
+         << "Default folder: " << file.default_folder_name()        << endl
+         << "Comment:        " << file.comment()                    << endl
+         << dec
+         << "Entries number: " << file.entries_number()             << endl
+         << "File size:      " << file.file_size()                  << endl
+         << hex
+         << "Signature:      " << file.signature2()          << 'h' << endl
+         << endl;
 
     file.readVariables();
     QList<TiVarEntry*> var_table = file.entries();
@@ -33,28 +36,56 @@ int main(int argc, char *argv[])
         {
             cout << "Folder name:    " << (*it)->name()       << endl
                  << "Variable count: " << (*it)->var_number() << endl
-                                                              << endl;
+                 << endl;
         }
         else
         {
-            cout << hex << "Offset:          " << (*it)->offset()            << 'h' << endl
-                        << "Variable name:   " << (*it)->name()              << endl
-                        << "Type ID:         " << (qint16)(*it)->type_id()   << 'h' << endl
-                        << "Attribute:       " << (qint16)(*it)->attribute() << 'h' << endl;
-            cout << "<--" << endl;
+            cout << hex
+                 << "Offset:          " << (*it)->offset()            << 'h' << endl
+                 << "Variable name:   " << (*it)->name()                     << endl
+                 << "Type ID:         " << (qint16)(*it)->type_id()   << 'h' << endl
+                 << "Attribute:       " << (qint16)(*it)->attribute() << 'h' << endl
+                 << "<--" << endl;
 
             switch((*it)->type_id())
             {
                 case TiVarEntry::String:{
                     TiStringVar *var = (TiStringVar*)(*it)->variable();
-
                     var->parse();
-                    cout << dec << "Variable size:   " << var->size()                      << endl
-                         << hex << "Signature:       " << (qint16)var->signature1() << 'h' << endl
-                                << "Data:            " << var->data()                      << endl
-                                << "Signature:       " << (qint16)var->signature2() << 'h' << endl
-                                << "Checksum:        " << var->checksum()           << "h -- "
-                                                       << var->calc_checksum()      << 'h' << endl;
+                    cout << dec
+                         << "Variable size:   " << var->size()                      << endl
+                         << hex
+                         << "Signature:       " << (qint16)var->signature1() << 'h' << endl
+                         << "Data:            " << var->data()                      << endl
+                         << "Signature:       " << (qint16)var->signature2() << 'h' << endl
+                         << "Checksum:        " << var->checksum()           << 'h'
+                         << " -- "              << var->calc_checksum()      << 'h' << endl;
+                    break;
+                }
+
+                case TiVarEntry::Text:{
+                    TiTextVar *var = (TiTextVar*)(*it)->variable();
+                    var->parse();
+                    cout << dec
+                         << "Variable size:   " << var->size()                 << endl
+                         << hex
+                         << "Cursor offset:   " << var->cursor_offset() << 'h' << endl
+                         << "Type / Content / EOL"                             << endl;
+                    QList<TiTextLine*> lines = var->lines();
+                    QListIterator<TiTextLine*> it(lines);
+                    while(it.hasNext())
+                    {
+                        TiTextLine* l = it.next();
+                        cout << hex
+                             << (qint16)l->type() << "h / \""
+                             << l->data()         << "\" / "
+                             << (qint16)l->eol()  << 'h' << endl;
+                    }
+
+                    cout << hex
+                         << "End of file:     " << (qint16)var->eof()   << 'h' << endl
+                         << "Checksum:        " << var->checksum()      << 'h'
+                         << " -- "              << var->calc_checksum() << 'h' << endl;
                     break;
                 }
 
