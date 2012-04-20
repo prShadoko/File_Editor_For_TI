@@ -117,23 +117,23 @@ void TiFile::readVariables()
             TiVar *variable = NULL;
             switch((*it)->type_id()) {
                 case TiVarEntry::Expression:{
-    //                    variable = new TiExpressionVar();
+//                    variable = new TiExpressionVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::List:{
-    //                    variable = new TiListVar();
+//                    variable = new TiListVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::Matrix:{
-    //                    variable = new TiMatrixVar();
+//                    variable = new TiMatrixVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::Data:{
-    //                    variable = new TiDataVar();
+//                    variable = new TiDataVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::Text:{
-    //                    variable = new TiTextVar();
+                    variable = new TiTextVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::String:{
@@ -141,27 +141,27 @@ void TiFile::readVariables()
                     break;
                 }
                 case TiVarEntry::GDB:{
-    //                    variable = new TiGDBVar();
+//                    variable = new TiGDBVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::Figure:{
-    //                    variable = new TiFigureVar();
+//                    variable = new TiFigureVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::Picture:{
-    //                    variable = new TiPictureVar();
+//                    variable = new TiPictureVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::Program:{
-    //                    variable = new TiProgramVar();
+//                    variable = new TiProgramVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::Function:{
-    //                    variable = new TiFunctionVar();
+//                    variable = new TiFunctionVar(data, length, checksum);
                     break;
                 }
                 case TiVarEntry::Macro:{
-    //                    variable = new TiMacroVar();
+//                    variable = new TiMacroVar(data, length, checksum);
                     break;
                 }
             }

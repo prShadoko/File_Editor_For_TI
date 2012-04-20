@@ -18,6 +18,17 @@ public:
     virtual void parse();
     virtual void check() throw(Excep);
 
+    // GETTERS
+    inline qint16 cursor_offset() const {
+        return m_cursor_offset;
+    }
+    inline QList<TiTextLine*> const &lines() const {
+        return m_lines;
+    }
+    inline qint8 eof() const {
+        return m_eof;
+    }
+
 protected:
     qint16 m_cursor_offset;     // Offset, in characters, to the cursor position.
     QList<TiTextLine*> m_lines; // Text lines @see TiTextLine
