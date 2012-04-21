@@ -18,3 +18,6 @@ SOURCES += \
     excep.cpp \
     titextvar.cpp \
     titextline.cpp
+
+OTHER_FILES += \
+    TODO.txt

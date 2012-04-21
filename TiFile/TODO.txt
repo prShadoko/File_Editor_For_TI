@@ -1,0 +1,23 @@
+DataStream:
+
+Excep:
+- Make some predefined errors (pair error code / message) to ensure homogeneous error handling.
+
+TiFile:
+- Check whether TiVarEntries need to be sorted or if they always are.
+
+TiVarEntry:
+- Split constructor (a default one, one for variables, one for folders).
+
+TiVar:
+
+TiStringVar:
+
+TiTextVar:
+- Write check() method.
+
+TiTextLine:
+- It might be usable for program lines.
+
+Global:
+- Complete getters / setters.
