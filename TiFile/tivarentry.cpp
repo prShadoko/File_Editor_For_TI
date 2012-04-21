@@ -18,5 +18,5 @@ TiVarEntry::~TiVarEntry()
 }
 
 bool TiVarEntry::isFolder() const {
-    return (m_type_id == 0x1F);
+    return (m_type_id == Folder);
 }

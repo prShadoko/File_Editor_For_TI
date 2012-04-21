@@ -19,7 +19,8 @@ public:
         Picture    = 0x10,
         Program    = 0x12,
         Function   = 0x13,
-        Macro      = 0x14
+        Macro      = 0x14,
+        Folder     = 0x1F
     };
 
     TiVarEntry(qint32 const offset, char const *name, VarType type_id, qint8 const attribute, qint16 const var_number);
