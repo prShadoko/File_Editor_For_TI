@@ -1,0 +1,6 @@
+*.pro.user
+*.[ao]
+Makefile
+#*.89[acdefgiklmpstuxz]
+#*.9x[acdefgiklmpstuxz]
+#*.v2[acdefgiklmpstuxz]

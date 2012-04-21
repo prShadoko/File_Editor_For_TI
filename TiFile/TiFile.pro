@@ -13,7 +13,7 @@ SOURCES += \
     tistringvar.cpp \
     tifile.cpp \
     tivarentry.cpp \
-    main.cpp \
+    test.cpp \
     datastream.cpp \
     excep.cpp \
     titextvar.cpp \
