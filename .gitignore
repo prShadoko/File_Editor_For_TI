@@ -1,5 +1,6 @@
+Temp/
+Final/
 *.pro.user
-*.[ao]
 Makefile
 #*.89[acdefgiklmpstuxz]
 #*.9x[acdefgiklmpstuxz]

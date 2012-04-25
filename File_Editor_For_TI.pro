@@ -1,19 +1,31 @@
-HEADERS += \
-    TiFile/tivar.h \
-    TiFile/tistringvar.h \
-    TiFile/tifile.h \
-    TiFile/tivarentry.h \
-    TiFile/excep.h \
-    TiFile/datastream.h \
-    TiFile/titextvar.h \
-    TiFile/titextline.h
+#########################################################################################################################
+#																														#
+#													Thomas RICHARD														#
+#																														#
+#########################################################################################################################
+#																														#
+#											  Projet : File_Editor_For_TI												#
+#																														#
+#########################################################################################################################
 
-SOURCES += \
-    TiFile/tivar.cpp \
-    TiFile/tistringvar.cpp \
-    TiFile/tifile.cpp \
-    TiFile/tivarentry.cpp \
-    TiFile/datastream.cpp \
-    TiFile/excep.cpp \
-    TiFile/titextvar.cpp \
-    TiFile/titextline.cpp
+##################################################### Application #######################################################
+APPLICATION		=	File_Editor_For_TI
+
+################################################## Paramètres globaux ###################################################
+TEMPLATE	=	subdirs
+SUBDIRS		=	TiFile \
+				File_Editor_For_TI
+
+message(Application $$APPLICATION)
+
+
+#################################################### Configuration ######################################################
+CONFIG		+=	ordered
+
+################################################ Cibles supplémentaires #################################################
+#make_doc.target		=	doc
+#make_doc.commands	=	doxygen $${APPLICATION}.doxyfile > doxygen_log.log
+
+#QMAKE_EXTRA_TARGETS		+=	make_doc
+
+
