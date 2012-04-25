@@ -67,7 +67,7 @@ void TiFile::readHeader()
             reader.read(attribute);
             reader.read(var_number);
 
-            TiVarEntry *entry = new TiVarEntry(offset, name, (TiVarEntry::VarType)type_id, attribute, var_number);
+            TiVarEntry *entry = new TiVarEntry(offset, name, static_cast<TiVarEntry::VarType>(type_id), attribute, var_number);
             m_entries.append(entry);
         }
 //        qSort(m_entries);
@@ -162,6 +162,9 @@ void TiFile::readVariables()
                 }
                 case TiVarEntry::Macro:{
 //                    variable = new TiMacroVar(data, length, checksum);
+                    break;
+                }
+                default:{
                     break;
                 }
             }
