@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <cstdlib>
 #include <iostream>
-#include "tifile.h"
+#include "ti9xfile.h"
 #include "tivar.h"
 
 using namespace std;
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    TiFile file(argv[1]);
+    Ti9xFile file(argv[1]);
     file.readHeader();
 
     cout << "Calc model:     " << file.calc_model()                 << endl

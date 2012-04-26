@@ -1,6 +1,6 @@
-#include "tifile.h"
+#include "ti9xfile.h"
 
-TiFile::TiFile(QString const &file_path) :
+Ti9xFile::Ti9xFile(QString const &file_path) :
     m_file_path(file_path),
     m_signature1(0x01),
     m_entries_number(0),
@@ -16,14 +16,14 @@ TiFile::TiFile(QString const &file_path) :
     }
 }
 
-TiFile::~TiFile()
+Ti9xFile::~Ti9xFile()
 {
     for(QList<TiVarEntry*>::iterator it=m_entries.begin(); it!=m_entries.end(); it++) {
         delete *it;
     }
 }
 
-void TiFile::readHeader()
+void Ti9xFile::readHeader()
 {
     try
     {
@@ -83,7 +83,7 @@ void TiFile::readHeader()
     }
 }
 
-void TiFile::readVariables()
+void Ti9xFile::readVariables()
 {
     try
     {

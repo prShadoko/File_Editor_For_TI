@@ -10,11 +10,11 @@
 #include "tistringvar.h"
 #include "titextvar.h"
 
-class TiFile
+class Ti9xFile
 {
 public:
-    TiFile(QString const &file_path = "");
-    ~TiFile();
+    Ti9xFile(QString const &file_path = "");
+    ~Ti9xFile();
     void readHeader();
     void readVariables();
 
