@@ -29,7 +29,7 @@ void TiTextVar::parse()
 
     reader >> m_cursor_offset;
 
-    QList<QByteArray> lines = buffer.buffer().split((char)TiTextLine::LineBreak);
+    QList<QByteArray> lines = buffer.buffer().split(static_cast<char>(TiTextLine::LineBreak));
     lines.last().chop(2); // remove the end of line  and end of file bytes from the last line
     lines.first() = lines.first().mid(2); // remove the cursor offset bytes from the first line
     for(QList<QByteArray>::iterator it=lines.begin(); it!=lines.end(); it++)
@@ -44,7 +44,7 @@ void TiTextVar::parse()
         reader >> line_type;
         reader.skipRawData((*it).size());
         reader >> eol;
-        m_lines.append(new TiTextLine(data, (TiTextLine::LineEnd)eol, (TiTextLine::LineType)line_type));
+        m_lines.append(new TiTextLine(data, static_cast<TiTextLine::LineEnd>(eol), static_cast<TiTextLine::LineType>(line_type)));
     }
     reader >> m_eof;
 

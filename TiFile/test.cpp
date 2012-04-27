@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <cstdlib>
 #include <iostream>
-#include "tifile.h"
+#include "ti9xfile.h"
 #include "tivar.h"
 
 using namespace std;
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    TiFile file(argv[1]);
+    Ti9xFile file(argv[1]);
     file.readHeader();
 
     cout << "Calc model:     " << file.calc_model()                 << endl
@@ -43,28 +43,28 @@ int main(int argc, char *argv[])
             cout << hex
                  << "Offset:          " << (*it)->offset()            << 'h' << endl
                  << "Variable name:   " << (*it)->name()                     << endl
-                 << "Type ID:         " << (qint16)(*it)->type_id()   << 'h' << endl
-                 << "Attribute:       " << (qint16)(*it)->attribute() << 'h' << endl
+                 << "Type ID:         " << static_cast<qint16>((*it)->type_id())   << 'h' << endl
+                 << "Attribute:       " << static_cast<qint16>((*it)->attribute()) << 'h' << endl
                  << "<--" << endl;
 
             switch((*it)->type_id())
             {
                 case TiVarEntry::String:{
-                    TiStringVar *var = (TiStringVar*)(*it)->variable();
+                    TiStringVar *var = dynamic_cast<TiStringVar*>((*it)->variable());
                     var->parse();
                     cout << dec
                          << "Variable size:   " << var->size()                      << endl
                          << hex
-                         << "Signature:       " << (qint16)var->signature1() << 'h' << endl
+                         << "Signature:       " << static_cast<qint16>(var->signature1()) << 'h' << endl
                          << "Data:            " << var->data()                      << endl
-                         << "Signature:       " << (qint16)var->signature2() << 'h' << endl
+                         << "Signature:       " << static_cast<qint16>(var->signature2()) << 'h' << endl
                          << "Checksum:        " << var->checksum()           << 'h'
                          << " -- "              << var->calc_checksum()      << 'h' << endl;
                     break;
                 }
 
                 case TiVarEntry::Text:{
-                    TiTextVar *var = (TiTextVar*)(*it)->variable();
+                    TiTextVar *var = dynamic_cast<TiTextVar*>((*it)->variable());
                     var->parse();
                     cout << dec
                          << "Variable size:   " << var->size()                 << endl
@@ -77,13 +77,13 @@ int main(int argc, char *argv[])
                     {
                         TiTextLine* l = it.next();
                         cout << hex
-                             << (qint16)l->type() << "h / \""
+                             << static_cast<qint16>(l->type()) << "h / \""
                              << l->data()         << "\" / "
-                             << (qint16)l->eol()  << 'h' << endl;
+                             << static_cast<qint16>(l->eol())  << 'h' << endl;
                     }
 
                     cout << hex
-                         << "End of file:     " << (qint16)var->eof()   << 'h' << endl
+                         << "End of file:     " << static_cast<qint16>(var->eof())   << 'h' << endl
                          << "Checksum:        " << var->checksum()      << 'h'
                          << " -- "              << var->calc_checksum() << 'h' << endl;
                     break;
