@@ -1,6 +1,7 @@
 #include "ti9xfile.h"
 
 Ti9xFile::Ti9xFile(QString const &file_path) :
+    TiFile(),
     m_file_path(file_path),
     m_signature1(0x01),
     m_entries_number(0),
