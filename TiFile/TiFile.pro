@@ -60,5 +60,4 @@ CODECFORSRC	=	UTF-8
 HEADERS		+=	*.h
 SOURCES		+=	*.cpp
 
-OTHER_FILES += \
-    TODO.txt
+OTHER_FILES     +=      TODO.txt

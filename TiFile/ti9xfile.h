@@ -1,16 +1,17 @@
-#ifndef TIFILE_H
-#define TIFILE_H
+#ifndef TI9XFILE_H
+#define TI9XFILE_H
 
 #include <QFile>
 #include <QList>
 #include <iostream>
 
+#include "tifile.h"
 #include "datastream.h"
 #include "tivarentry.h"
 #include "tistringvar.h"
 #include "titextvar.h"
 
-class Ti9xFile
+class Ti9xFile : public TiFile
 {
 public:
     Ti9xFile(QString const &file_path = "");
@@ -67,4 +68,4 @@ protected:
     qint16 m_signature2;                // A 2-byte signature. These two bytes always contain {A5h, 5Ah}.
 };
 
-#endif // TIFILE_H
+#endif // TI9XFILE_H
