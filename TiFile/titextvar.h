@@ -13,7 +13,7 @@ class TiTextVar : public TiVar
 public:
     TiTextVar();
     TiTextVar(char *raw_data, const qint32 &length, const qint16 &checksum);
-    ~TiTextVar();
+    virtual ~TiTextVar();
 
     virtual void parse();
     virtual void check() throw(Excep);

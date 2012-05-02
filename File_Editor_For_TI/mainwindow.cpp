@@ -79,18 +79,29 @@ void MainWindow::createDockWindows()
 {
     QDockWidget *dock = new QDockWidget(tr("Opened files"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    m_opened_files = new QTreeWidget(dock);
-    m_opened_files->addTopLevelItems(QList<QTreeWidgetItem*>());
-    dock->setWidget(m_opened_files);
+    m_opened_files_tree = new QTreeWidget(dock);
+    m_opened_files_tree->setHeaderHidden(true);
+    dock->setWidget(m_opened_files_tree);
     addDockWidget(Qt::RightDockWidgetArea, dock);
     m_view_menu->addAction(dock->toggleViewAction());
 }
 
 void MainWindow::openFile()
 {
-    //TODO
+    //TODO: complete the extension filter
+    //TODO: allow multiple-file selection
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open a TI file"), QDir::homePath(), tr("All files(*.*);;TI strings (*.89s *.92s *.9xs *.v2s);;TI texts (*.89t *.92t *.9xt *.v2t)"));
+    if(!filename.isEmpty())
+    {
+        TiFile *file = new Ti9xFile(filename);
+        //TODO: check which file type it is to call the right constructor
+        //TiFile *file = new Ti8xFile(filename);
+        file->readHeader();
+        m_opened_files.append(file);
+        m_opened_files_tree->addTopLevelItem(file->fileTree());
+        m_opened_files_tree->show();
+    }
 }
-
 void MainWindow::saveFile()
 {
     //TODO
@@ -99,6 +110,7 @@ void MainWindow::saveFile()
 void MainWindow::quit()
 {
     //TODO
+    close();
 }
 
 void MainWindow::newVariable()

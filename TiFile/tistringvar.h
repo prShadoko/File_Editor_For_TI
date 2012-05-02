@@ -10,7 +10,7 @@ class TiStringVar : public TiVar
 public:
     TiStringVar();
     TiStringVar(char *raw_data, qint32 const &size, qint16 const &checksum);
-    ~TiStringVar();
+    virtual ~TiStringVar();
     virtual void parse();
     virtual void check() throw(Excep);
 

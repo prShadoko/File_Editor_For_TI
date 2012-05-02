@@ -53,15 +53,16 @@ MOC_DIR		=	$${RACINE}/Temp/$${PROJECT}/mocs$${PROJECT_SUFFIX}
 #UI_DIR		=	$${RACINE}/Temp/$${PROJECT}/uics$${PROJECT_SUFFIX}
 RCC_DIR		=	$${RACINE}/Temp/$${PROJECT}/rccs$${PROJECT_SUFFIX}
 
+INCLUDEPATH =   $${RACINE}/TiFile
+
 ##################################################### Configuration #####################################################
 CODECFORTR	=	UTF-8
 CODECFORSRC	=	UTF-8
 
-###################################################### Librairies #######################################################
-LIBS		+=	-L$${FINAL} -lTiFiled
-
 ######################################################## Fichiers #######################################################
-HEADERS		+=	*.h
-SOURCES		+=	*.cpp
+HEADERS		+=	*.h \
+			../TiFile/*.h
+SOURCES		+=	*.cpp \
+            ../TiFile/*.cpp
 #FORMS		+=	*.ui
 RESOURCES	+=	*.qrc

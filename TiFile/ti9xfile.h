@@ -2,7 +2,9 @@
 #define TI9XFILE_H
 
 #include <QFile>
+#include <QFileInfo>
 #include <QList>
+#include <QTreeWidgetItem>
 #include <iostream>
 
 #include "tifile.h"
@@ -15,9 +17,10 @@ class Ti9xFile : public TiFile
 {
 public:
     Ti9xFile(QString const &file_path = "");
-    ~Ti9xFile();
-    void readHeader();
-    void readVariables();
+    virtual ~Ti9xFile();
+    virtual void readHeader();
+    virtual void readVariables();
+    virtual QTreeWidgetItem *fileTree();
 
     // GETTERS
     inline char const *calc_model() const {
@@ -45,14 +48,7 @@ public:
         return m_signature2;
     }
 
-    // SETTERS
-    inline void setFilePath(QString const &file_path) {
-        m_file_path = file_path;
-    }
-
 protected:
-    QString m_file_path;
-
     // HEADER
     char    m_calc_model[9];            // 8-character signature. The signature is always "**TI89**".
     qint16  m_signature1;               // 2-byte further signature. These two bytes always contain {01h, 00h} = {1, 0}.

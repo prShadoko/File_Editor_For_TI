@@ -3,12 +3,15 @@
 
 #include <QAction>
 #include <QDockWidget>
+#include <QFileDialog>
 #include <QMainWindow>
 #include <QMdiArea>
 #include <QMenu>
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QTreeWidget>
+
+#include <ti9xfile.h>
 
 class MainWindow : public QMainWindow
 {
@@ -32,8 +35,10 @@ private:
     void createStatusBar();
     void createDockWindows();
 
+    QList<TiFile*> m_opened_files;
+
     QMdiArea *m_mdi_area;
-    QTreeWidget *m_opened_files;
+    QTreeWidget *m_opened_files_tree;
 
     QMenu *m_file_menu;
     QMenu *m_edit_menu;

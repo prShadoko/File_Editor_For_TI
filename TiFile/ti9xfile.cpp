@@ -1,8 +1,7 @@
 #include "ti9xfile.h"
 
 Ti9xFile::Ti9xFile(QString const &file_path) :
-    TiFile(),
-    m_file_path(file_path),
+    TiFile(file_path),
     m_signature1(0x01),
     m_entries_number(0),
     m_file_size(0),
@@ -178,4 +177,12 @@ void Ti9xFile::readVariables()
         std::cerr << "In file \"" << m_file_path.toStdString() << "\" : " << std::endl
                   << e.what() << std::endl;
     }
+}
+
+QTreeWidgetItem *Ti9xFile::fileTree()
+{
+
+    QTreeWidgetItem* item = new QTreeWidgetItem(QStringList() << QFileInfo(m_file_path).fileName());
+    //TODO: call varTree() for each variable in the file and add results as children of 'item'
+    return item;
 }
