@@ -11,6 +11,7 @@
 #include <QStatusBar>
 #include <QTreeWidget>
 
+#include <openedfileswidget.h>
 #include <ti9xfile.h>
 
 class MainWindow : public QMainWindow
@@ -38,7 +39,7 @@ private:
     QList<TiFile*> m_opened_files;
 
     QMdiArea *m_mdi_area;
-    QTreeWidget *m_opened_files_tree;
+    OpenedFilesWidget *m_opened_files_tree;
 
     QMenu *m_file_menu;
     QMenu *m_edit_menu;

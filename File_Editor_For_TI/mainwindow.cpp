@@ -78,11 +78,15 @@ void MainWindow::createStatusBar()
 void MainWindow::createDockWindows()
 {
     QDockWidget *dock = new QDockWidget(tr("Opened files"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    m_opened_files_tree = new QTreeWidget(dock);
+    m_opened_files_tree = new OpenedFilesWidget(dock);
+    QMenu *menu = new QMenu(m_opened_files_tree);
+
+    menu->addActions(QList<QAction*>() << m_open_file_action);
+    m_opened_files_tree->setContextMenu(menu);
     m_opened_files_tree->setHeaderHidden(true);
     dock->setWidget(m_opened_files_tree);
-    addDockWidget(Qt::RightDockWidgetArea, dock);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::LeftDockWidgetArea, dock);
     m_view_menu->addAction(dock->toggleViewAction());
 }
 
