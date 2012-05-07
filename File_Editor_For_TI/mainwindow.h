@@ -22,8 +22,10 @@ public:
     MainWindow(QWidget *parent = 0);
 
 public slots:
+    void newFile();
     void openFile();
     void saveFile();
+    void closeFile();
     void quit();
     void newVariable();
     void about();
@@ -47,8 +49,10 @@ private:
     QMenu *m_help_menu;
 //    QToolBar *m_file_tool_bar;
 //    QToolBar *m_edit_tool_bar;
+    QAction *m_new_file_action;
     QAction *m_open_file_action;
     QAction *m_save_file_action;
+    QAction *m_close_file_action;
     QAction *m_quit_action;
     QAction *m_new_variable_action;
     QAction *m_about_action;
