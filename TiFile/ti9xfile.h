@@ -20,7 +20,7 @@ public:
     virtual ~Ti9xFile();
     virtual void readHeader();
     virtual void readVariables();
-    virtual QTreeWidgetItem *fileTree();
+    virtual void buildFileTree();
 
     // GETTERS
     inline char const *calc_model() const {

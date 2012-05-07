@@ -12,7 +12,10 @@ public:
 
     virtual void readHeader() = 0;
     virtual void readVariables() = 0;
-    virtual QTreeWidgetItem *fileTree() = 0;
+    virtual void buildFileTree() = 0;
+    QTreeWidgetItem *fileTree() {
+        return m_file_tree;
+    }
 
     // GETTERS
     inline QString const & filePath()
@@ -27,7 +30,7 @@ public:
 
 protected:
     QString m_file_path;
-
+    QTreeWidgetItem *m_file_tree;
 };
 
 #endif // TIFILE_H

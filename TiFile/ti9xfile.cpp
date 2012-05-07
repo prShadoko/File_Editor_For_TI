@@ -179,10 +179,9 @@ void Ti9xFile::readVariables()
     }
 }
 
-QTreeWidgetItem *Ti9xFile::fileTree()
+void Ti9xFile::buildFileTree()
 {
 
-    QTreeWidgetItem* item = new QTreeWidgetItem(QStringList() << QFileInfo(m_file_path).fileName());
+    m_file_tree = new QTreeWidgetItem(QStringList() << QFileInfo(m_file_path).fileName());
     //TODO: call varTree() for each variable in the file and add results as children of 'item'
-    return item;
 }
