@@ -112,6 +112,7 @@ void MainWindow::newFile()
     TiFile *file = new Ti9xFile();
     m_opened_files.append(file);
     file->buildFileTree();
+    file->fileTree()->setText(0, tr("New file"));
     m_opened_files_tree->addTopLevelItem(file->fileTree());
 
     m_close_file_action->setEnabled(true);
@@ -134,6 +135,7 @@ void MainWindow::openFile()
         m_close_file_action->setEnabled(true);
     }
 }
+
 void MainWindow::saveFile()
 {
     //TODO
