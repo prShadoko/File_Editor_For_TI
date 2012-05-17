@@ -40,8 +40,8 @@ win32:QMAKE_DISTCLEAN	+=	*_resource.rc \
 QMAKE_DISTCLEAN			+=	*.log
 
 ################################################ Paramètres compilateur #################################################
-QMAKE_CXXFLAGS				+=	-Wall -Wold-style-cast -Wredundant-decls -Winit-self -Wundef# -Winline
-QMAKE_CXXFLAGS_RELEASE		+=	-O2 -fomit-frame-pointer -s# -fexpensive-optimisations
+QMAKE_CXXFLAGS				+=	-Wall -Wold-style-cast -Wredundant-decls -Winit-self -Wundef -Winline
+QMAKE_CXXFLAGS_RELEASE		+=	-O2 -fomit-frame-pointer -s -fexpensive-optimisations
 
 ###################################################### Répertoires ######################################################
 RACINE		=	..
